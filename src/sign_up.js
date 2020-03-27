@@ -16,8 +16,6 @@ import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 
-import sendRequest from './send_request';
-
 const useStyles = makeStyles((theme) => ({
 	paper: {
 		marginTop: theme.spacing(8),
@@ -97,13 +95,13 @@ export default function SignUp() {
 			request,
 		};
 
-		sendRequest(requestData)
+		fetch(`/request?requestData=${encodeURIComponent(JSON.stringify(requestData))}`)
 			.then((status) => {
 				if (!status.ok) {
 					console.error('Request error:', status);
 					return;
 				}
-				console.log('Request compelted successfully:', status);
+				console.log('Request completed successfully:', status);
 			})
 			.catch((error) => {
 				console.error('Network error: ', error);
