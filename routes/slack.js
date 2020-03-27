@@ -31,10 +31,10 @@ router.get('/oauth', async (req, res) => {
 });
 
 slackEvents.on('message', (event) => {
-    console.log(event);
+    console.log('event', event);
 });
 
-slackInteractions.action({action_id: 'claim'}, (payload, respond) => {
+slackInteractions.action({actionId: 'claim'}, (payload, respond) => {
 
     const claimedMessage = [
         {
@@ -138,7 +138,7 @@ slackInteractions.action({action_id: 'claim'}, (payload, respond) => {
 
 });
 
-slackInteractions.action({action_id: 'add-details'}, (payload, respond) => {
+slackInteractions.action({actionId: 'add-details'}, (payload, respond) => {
 
     const detailsModalBlocks = [
         {
