@@ -297,7 +297,7 @@ slackInteractions.action({actionId: 'add-details'}, (payload, respond) => {
     client.views.open({
         trigger_id: payload.trigger_id,
         title: "Hello, world!",
-        blocks: detailsModalView
+        view: detailsModalView
     });
 
 });
