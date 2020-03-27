@@ -57,17 +57,8 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-export default function SignUp() {
+export default function SignUp({ onSuccess }) {
 	const classes = useStyles();
-
-	const [selectedDate, setSelectedDate] = React.useState(new Date());
-	const [preferredTime, setPreferredTime] = React.useState('morning');
-	const handleDateChange = (date) => {
-		setSelectedDate(date);
-	};
-	const handleChange = (event) => {
-		setPreferredTime(event.target.value);
-	};
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
@@ -101,7 +92,7 @@ export default function SignUp() {
 					console.error('Request error:', status);
 					return;
 				}
-				console.log('Request completed successfully:', status);
+				onSuccess();
 			})
 			.catch((error) => {
 				console.error('Network error: ', error);
@@ -143,6 +134,14 @@ export default function SignUp() {
 	const [request, setRequest] = React.useState('');
 	const handleRequestChange = (event) => {
 		setRequest(event.target.value);
+	};
+	const [selectedDate, setSelectedDate] = React.useState(new Date());
+	const handleDateChange = (date) => {
+		setSelectedDate(date);
+	};
+	const [preferredTime, setPreferredTime] = React.useState('morning');
+	const handleChange = (event) => {
+		setPreferredTime(event.target.value);
 	};
 
 	function handleDummyData() {
