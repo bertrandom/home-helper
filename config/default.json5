@@ -6,6 +6,8 @@
 		"signing_secret": "xxx",
 		"verification_token": "xxx",
 		"scopes": "bot,team:read",
+		"bot_access_token": "xoxb-xxx-xxx-xxx",
+		"channel": "C12345678",
 	},
 	"gofundme": {
 		"username": "",

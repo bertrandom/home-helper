@@ -1,7 +1,7 @@
 const moment = require('moment');
 const inquirer = require('inquirer');
 const ora = require('ora');
-const gofundme = require('./lib/gofundme');
+const gofundme = require('../lib/gofundme');
 
 var questions = [
     {
@@ -32,11 +32,4 @@ inquirer
         console.log(url);
     });
 
-}).catch(error => {
-    if (error.isTtyError) {
-    // Prompt couldn't be rendered in the current environment
-    } else {
-    // Something else when wrong
-    }
 });
-
