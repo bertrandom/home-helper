@@ -3,6 +3,15 @@ export default function sendRequest(requestData) {
 	const SLACK_ACCESS_TOKEN = 'xoxb-678573163620-1032265700039-gyEhl8juWexypPlK10CQO2LK';
 	const CHANNEL = 'C010VMXR91A';
 
+	let contactInformation;
+	if (requestData.email && !requestData.phoneNumber) {
+		contactInformation = `You can email me at: *${requestData.email}*`;
+	} else if (requestData.phoneNumber && !requestData.email) {
+		contactInformation = `You can call me at: *${requestData.phoneNumber}*`;
+	} else if (requestData.email && requestData.phoneNumber) {
+		contactInformation = `You can contact me at either *${requestData.email}* or *${requestData.phoneNumber}*`;
+	}
+
 	const blocks = [
 		{
 			type: 'section',
@@ -20,6 +29,13 @@ export default function sendRequest(requestData) {
 				type: 'plain_text',
 				text: requestData.request,
 				emoji: true,
+			},
+		},
+		{
+			type: 'section',
+			text: {
+				type: 'mrkdwn',
+				text: contactInformation,
 			},
 		},
 		{

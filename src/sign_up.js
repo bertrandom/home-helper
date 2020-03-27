@@ -111,14 +111,41 @@ export default function SignUp() {
 	};
 
 	const [firstName, setFirstName] = React.useState('');
+	const handleFirstNameChange = (event) => {
+		setFirstName(event.target.value);
+	};
 	const [lastName, setLastName] = React.useState('');
+	const handleLastNameChange = (event) => {
+		setLastName(event.target.value);
+	};
 	const [email, setEmail] = React.useState('');
+	const handleEmailChange = (event) => {
+		setEmail(event.target.value);
+	};
 	const [phoneNumber, setPhoneNumber] = React.useState('');
+	const handlePhoneNumberChange = (event) => {
+		setPhoneNumber(event.target.value);
+	};
 	const [address, setAddress] = React.useState('');
+	const handleAddressChange = (event) => {
+		setAddress(event.target.value);
+	};
 	const [zipcode, setZipcode] = React.useState('');
+	const handleZipcodeChange = (event) => {
+		setZipcode(event.target.value);
+	};
 	const [city, setCity] = React.useState('');
+	const handleCityChange = (event) => {
+		setCity(event.target.value);
+	};
 	const [state, setState] = React.useState('');
+	const handleStateChange = (event) => {
+		setState(event.target.value);
+	};
 	const [request, setRequest] = React.useState('');
+	const handleRequestChange = (event) => {
+		setRequest(event.target.value);
+	};
 
 	function handleDummyData() {
 		setFirstName(['Janice', 'Carol', 'Bob', 'Steve', 'Aristotle'][parseInt(Math.floor(Math.random() * 5))]);
@@ -188,6 +215,7 @@ export default function SignUp() {
 								label="First Name"
 								autoFocus
 								value={firstName}
+								onChange={handleFirstNameChange}
 							/>
 						</Grid>
 						<Grid item xs={12} sm={6}>
@@ -199,6 +227,7 @@ export default function SignUp() {
 								name="lastname"
 								autoComplete="lname"
 								value={lastName}
+								onChange={handleLastNameChange}
 							/>
 						</Grid>
 						<Grid item xs={12}>
@@ -210,6 +239,7 @@ export default function SignUp() {
 								name="email"
 								autoComplete="email"
 								value={email}
+								onChange={handleEmailChange}
 							/>
 						</Grid>
 						<Grid item xs={12}>
@@ -221,6 +251,7 @@ export default function SignUp() {
 								name="phonenumber"
 								autoComplete="phonenumber"
 								value={phoneNumber}
+								onChange={handlePhoneNumberChange}
 							/>
 						</Grid>
 						<Grid item xs={12}>
@@ -232,6 +263,7 @@ export default function SignUp() {
 								name="address"
 								autoComplete="address"
 								value={address}
+								onChange={handleAddressChange}
 							/>
 						</Grid>
 						<Grid item xs={12} sm={3}>
@@ -243,6 +275,7 @@ export default function SignUp() {
 								name="zipcode"
 								autoComplete="zipcode"
 								value={zipcode}
+								onChange={handleZipcodeChange}
 							/>
 						</Grid>
 						<Grid item xs={12} sm={7}>
@@ -254,6 +287,7 @@ export default function SignUp() {
 								name="city"
 								autoComplete="city"
 								value={city}
+								onChange={handleCityChange}
 							/>
 						</Grid>
 						<Grid item xs={12} sm={2}>
@@ -265,6 +299,7 @@ export default function SignUp() {
 								name="state"
 								autoComplete="state"
 								value={state}
+								onChange={handleStateChange}
 							/>
 						</Grid>
 					</Grid>
@@ -318,6 +353,7 @@ export default function SignUp() {
 							id="request"
 							name="request"
 							value={request}
+							onChange={handleRequestChange}
 						/>
 					</Grid>
 
