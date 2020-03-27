@@ -5,7 +5,7 @@
 		"client_secret": "xxx",
 		"signing_secret": "xxx",
 		"verification_token": "xxx",
-		"scopes": "bot,team:read",
+		"scopes": "chat:write,im:history",
 		"bot_access_token": "xoxb-xxx-xxx-xxx",
 		"channel": "C12345678",
 	},
