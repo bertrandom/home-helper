@@ -2,6 +2,7 @@ const path = require('path');
 const config = require('config');
 const express = require('express');
 const exphbs = require('express-handlebars');
+const ngrok = require('ngrok');
 
 const mountRoutes = require('./routes');
 
@@ -28,6 +29,18 @@ app.use(function (err, req, res, next) {
 	next();
 });
 
-app.listen(config.port, () => {
-	console.log(`Server started on port ${config.port}.`);
-});
+let url = "localhost";
+
+(async () => {
+	try {
+		if (config.ngrok) {
+			url = await ngrok.connect({...config.ngrok, addr: config.port});
+		}
+		
+		app.listen(config.port, () => {
+			console.log(`Server started url https://${url}:${config.port}.`);
+		});
+	} catch(error) {
+		console.error(error);
+	}
+})()
