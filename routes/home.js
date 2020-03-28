@@ -81,7 +81,7 @@ router.get('/request', async (req, res) => {
 						emoji: true,
 					},
 					value: 'claim',
-					actionId: 'claim',
+					action_id: 'claim',
 				},
 			],
 		},
