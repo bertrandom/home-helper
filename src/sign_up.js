@@ -4,7 +4,6 @@ import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
-import LockOutlined from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
@@ -15,6 +14,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
+import EmojiPeopleIcon from '@material-ui/icons/EmojiPeople';
 
 const useStyles = makeStyles((theme) => ({
 	paper: {
@@ -25,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 	avatar: {
 		margin: theme.spacing(1),
-		backgroundColor: theme.palette.secondary.main,
+		backgroundColor: theme.palette.info.main,
 	},
 	form: {
 		width: '100%', // Fix IE 11 issue.
@@ -54,6 +54,9 @@ const useStyles = makeStyles((theme) => ({
 	},
 	muipicker: {
 		paddingRight: theme.spacing(4),
+	},
+	headline: {
+		marginBottom: theme.spacing(2),
 	},
 }));
 
@@ -194,10 +197,15 @@ export default function SignUp({ onSuccess }) {
 			<CssBaseline />
 			<div className={classes.paper}>
 				<Avatar className={classes.avatar}>
-					<LockOutlined />
+					<EmojiPeopleIcon />
 				</Avatar>
-				<Typography component="h1" variant="h4">
-					Register
+				<Typography component="h1" variant="h4" className={classes.headline}>
+					How can we help?
+				</Typography>
+				<Typography component="p" variant="body1">
+					Home helper offers assistance to those who prefer the extra helping hand. Fill out the form below to
+					request a delivery of goods from a local store, business or restaurant. We will find the busisness
+					and plan the delivery for you, just tell us what you need and when you need it!
 				</Typography>
 				<form className={classes.form} method="post" onSubmit={handleSubmit}>
 					<Grid container spacing={2}>
@@ -273,6 +281,7 @@ export default function SignUp({ onSuccess }) {
 								autoComplete="zipcode"
 								value={zipcode}
 								onChange={handleZipcodeChange}
+								inputProps={{ maxLength: 5 }}
 							/>
 						</Grid>
 						<Grid item xs={12} sm={7}>
@@ -297,13 +306,14 @@ export default function SignUp({ onSuccess }) {
 								autoComplete="state"
 								value={state}
 								onChange={handleStateChange}
+								inputProps={{ maxLength: 2 }}
 							/>
 						</Grid>
 					</Grid>
 					<Grid container>
 						<Grid item xs={12}>
 							<Typography component="h2" variant="h5" className={classes.typography}>
-								Preferred date
+								Delivery date
 							</Typography>
 						</Grid>
 					</Grid>
@@ -316,6 +326,7 @@ export default function SignUp({ onSuccess }) {
 									id="deliverywindow"
 									value={selectedDate}
 									onChange={handleDateChange}
+									minDate={new Date()}
 									KeyboardButtonProps={{
 										'aria-label': 'change delivery date',
 									}}
@@ -340,7 +351,7 @@ export default function SignUp({ onSuccess }) {
 					</Grid>
 					<Grid item xs={12}>
 						<Typography component="h2" variant="h5" className={classes.typography}>
-							What do you need assistance with?
+							What can we do for you?
 						</Typography>
 					</Grid>
 					<Grid item xs={12}>
