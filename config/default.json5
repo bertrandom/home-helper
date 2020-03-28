@@ -16,7 +16,7 @@
 	"port": 8080,
 	"ngrok": {
 		proto: "",
-		addr: ,
+		addr: 8080,
 		subdomain: "",
 		authtoken: "",
 	}
