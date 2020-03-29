@@ -235,8 +235,8 @@ slackInteractions.viewSubmission("details-modal", (payload, respond) => {
     const { channel, message } = JSON.parse(view.private_metadata);
 
     // Beware the house of cards that lies beyond...
-    const vendor_url = view.state.values.vendor_url.vendor_url_value.value;
-    const total_cost = view.state.values.total_cost.total_cost_value.value;
+    const vendorUrl = view.state.values.vendor_url.vendor_url_value.value;
+    const totalCost = view.state.values.total_cost.total_cost_value.value;
     const nameTextBlock = message.blocks[0].text.text.match(/Thanks for claiming (.*)'s request/)[1];
     const requestTextBlock = message.blocks[3].text.text;
     const addressTextBlock = message.blocks[5].text.text;
@@ -345,7 +345,7 @@ slackInteractions.viewSubmission("details-modal", (payload, respond) => {
 			type: 'section',
 			text: {
 				type: 'plain_text',
-				text: `${vendor_url}`,
+				text: `${vendorUrl}`,
 				emoji: true,
 			},
 		},
@@ -360,7 +360,7 @@ slackInteractions.viewSubmission("details-modal", (payload, respond) => {
 			type: 'section',
 			text: {
 				type: 'plain_text',
-				text: `${total_cost}`,
+				text: `${totalCost}`,
 				emoji: true,
 			},
 		},
@@ -371,7 +371,7 @@ slackInteractions.viewSubmission("details-modal", (payload, respond) => {
 					type: 'button',
 					text: {
 						type: 'plain_text',
-						text: 'Fulfill this request',
+						text: 'Mark as fulfilled',
 						emoji: true,
 					},
 					value: 'fulfill',

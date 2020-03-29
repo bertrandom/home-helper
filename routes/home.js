@@ -109,4 +109,148 @@ router.get('/request', async (req, res) => {
 	res.sendStatus(200);
 });
 
+router.get('/fulfillment', async (req, res) => {
+	const client = new WebClient(config.slack.bot_access_token);
+	const channel = config.slack.fulfillment_channel;
+	const requestData = JSON.parse(req.query['requestData']);
+	const {
+		vendorUrl,
+		totalCost,
+		nameTextBlock,
+		requestTextBlock,
+		addressTextBlock,
+		whenTextBlock,
+		contactTextBlock
+	} = requestData;
+
+	const blocks = [
+		{
+			type: 'section',
+			text: {
+				type: 'plain_text',
+				text: `Request is ready for fullfillment`,
+				emoji: true,
+			},
+        },
+        {
+			type: 'section',
+			text: {
+				type: 'mrkdwn',
+				text: `Request from ${nameTextBlock}`,
+			},
+		},
+		{
+			type: 'section',
+			text: {
+				type: 'mrkdwn',
+				text: '*Request*',
+			},
+		},
+		{
+			type: 'section',
+			text: {
+				type: 'mrkdwn',
+				text: requestTextBlock,
+			},
+		},
+		{
+			type: 'section',
+			text: {
+				type: 'mrkdwn',
+				text: '*Address*',
+			},
+		},
+		{
+			type: 'section',
+			text: {
+				type: 'mrkdwn',
+				text: addressTextBlock,
+			},
+		},
+		{
+			type: 'section',
+			text: {
+				type: 'mrkdwn',
+				text: '*When*',
+			},
+		},
+		{
+			type: 'section',
+			text: {
+				type: 'plain_text',
+				text: whenTextBlock,
+				emoji: true,
+			},
+		},
+		{
+			type: 'section',
+			text: {
+				type: 'mrkdwn',
+				text: '*Contact*',
+			},
+		},
+		{
+			type: 'section',
+			text: {
+				type: 'plain_text',
+				text: contactTextBlock,
+				emoji: true,
+			},
+		},
+		{
+			type: 'section',
+			text: {
+				type: 'mrkdwn',
+				text: '*Supplier*',
+			},
+		},
+		{
+			type: 'section',
+			text: {
+				type: 'plain_text',
+				text: `${vendorUrl}`,
+				emoji: true,
+			},
+		},
+		{
+			type: 'section',
+			text: {
+				type: 'mrkdwn',
+				text: '*How much*',
+			},
+		},
+		{
+			type: 'section',
+			text: {
+				type: 'plain_text',
+				text: `${totalCost}`,
+				emoji: true,
+			},
+		},
+		{
+			type: 'actions',
+			elements: [
+				{
+					type: 'button',
+					text: {
+						type: 'plain_text',
+						text: 'Mark as fulfilled',
+						emoji: true,
+					},
+					value: 'fulfill',
+					action_id: 'fulfill',
+				},
+			],
+		},
+	];
+
+	try {
+		client.chat.postMessage({ blocks, channel });
+	} catch (error) {
+		console.log(error);
+		res.sendStatus(500);
+	}
+	res.sendStatus(200);
+});
+
 module.exports = router;

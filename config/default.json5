@@ -8,6 +8,7 @@
 		"scopes": "chat:write,im:history",
 		"bot_access_token": "xoxb-xxx-xxx-xxx",
 		"channel": "C12345678",
+		"fulfillment_channel": "C987654321",
 	},
 	"gofundme": {
 		"username": "",
