@@ -163,9 +163,7 @@ slackInteractions.action({actionId: 'claim'}, (payload, respond) => {
 
 slackInteractions.action({actionId: 'add-details'}, (payload, respond) => {
 
-    const { message } = payload;
-
-    console.log(message.blocks);
+    const { message, channel } = payload;
 
     const detailsModalView = {
         type: "modal",
@@ -177,7 +175,7 @@ slackInteractions.action({actionId: 'add-details'}, (payload, respond) => {
         submit: {
             type: "plain_text",
             text: "Submit",
-            emoji: true
+            emoji: true,
         },
         close: {
             type: "plain_text",
@@ -215,15 +213,40 @@ slackInteractions.action({actionId: 'add-details'}, (payload, respond) => {
                     emoji: true
                 }
             }
-        ]
+        ],
+        callback_id: "details-modal",
+        private_metadata: { message, channel }
     };
 
     client.views.open({
         trigger_id: payload.trigger_id,
         title: "Enter order details",
-        view: detailsModalView
+        view: detailsModalView,
     });
 
+});
+
+slackInteractions.viewSubmission("details-modal", (payload, respond) => {
+    const { view } = payload;
+
+    const doneMessage = [
+        {
+            type: "section",
+            text: {
+                type: "plain_text",
+                text: `✅ You are done. Your help is appreciated.`,
+                emoji: true
+            }
+        }
+    ];
+
+    const { channel, message } = JSON.parse(view.private_metadata);
+
+    client.chat.update({
+        channel: channel.id,
+        ts: message.ts,
+        blocks: doneMessage
+    });
 });
 
 slackEvents.on('error', console.error);
