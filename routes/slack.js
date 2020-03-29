@@ -165,57 +165,26 @@ slackInteractions.action({actionId: 'add-details'}, (payload, respond) => {
 
     const { message } = payload;
 
+    console.log(message.blocks);
+
     const detailsModalView = {
-        "type": "modal",
-        "title": {
-            "type": "plain_text",
-            "text": "Enter request details",
-            "emoji": true
+        type: "modal",
+        title: {
+            type: "plain_text",
+            text: "Enter request details",
+            emoji: true
         },
-        "submit": {
-            "type": "plain_text",
-            "text": "Submit",
-            "emoji": true
+        submit: {
+            type: "plain_text",
+            text: "Submit",
+            emoji: true
         },
-        "close": {
-            "type": "plain_text",
-            "text": "Cancel",
-            "emoji": true
+        close: {
+            type: "plain_text",
+            text: "Cancel",
+            emoji: true
         },
-        "blocks": [
-            {
-                "type": "section",
-                "text": {
-                    "type": "mrkdwn",
-                    "text": "Request from Samantha Slackington:"
-                }
-            },
-            {
-                "type": "section",
-                "text": {
-                    "type": "mrkdwn",
-                    "text": "Hello, please send me some groceries. I need: coffee, onions, gravy, strawberries, sandwiches, masking tape, drain cleaner, a bundle of thyme, and fruit leather."
-                }
-            },
-            {
-                "type": "section",
-                "text": {
-                    "type": "mrkdwn",
-                    "text": "<https://duckduckgo.com/?q=125+14th+St%2C+Oakland%2C+CA+94612&ia=web&iaxm=maps|125 14th St Oakland, CA 94612>"
-                }
-            },
-            {
-                "type": "context",
-                "elements": [
-                    {
-                        "type": "mrkdwn",
-                        "text": "In the morning. Preferably on Monday"
-                    }
-                ]
-            },
-            {
-                "type": "divider"
-            },
+        blocks: [
             {
                 "type": "input",
                 "element": {
@@ -234,7 +203,7 @@ slackInteractions.action({actionId: 'add-details'}, (payload, respond) => {
                 },
                 "label": {
                     "type": "plain_text",
-                    "text": "Total cost with shipping",
+                    "text": "Total cost with delivery",
                     "emoji": true
                 }
             },
