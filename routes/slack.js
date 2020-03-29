@@ -55,7 +55,7 @@ slackInteractions.action({actionId: 'claim'}, (payload, respond) => {
             }
         }
     ];
-    
+
     const thankYouMessage = [
         {
             type: "section",
@@ -185,8 +185,10 @@ slackInteractions.action({actionId: 'add-details'}, (payload, respond) => {
         blocks: [
             {
                 type: "input",
+                block_id: "vendor_url",
                 element: {
-                    type: "plain_text_input"
+                    type: "plain_text_input",
+                    action_id: "vendor_url_value"
                 },
                 label: {
                     type: "plain_text",
@@ -196,8 +198,10 @@ slackInteractions.action({actionId: 'add-details'}, (payload, respond) => {
             },
             {
                 type: "input",
+                block_id: "total_cost",
                 element: {
-                    type: "plain_text_input"
+                    type: "plain_text_input",
+                    action_id: "total_cost_value"
                 },
                 label: {
                     type: "plain_text",
@@ -228,6 +232,17 @@ slackInteractions.action({actionId: 'add-details'}, (payload, respond) => {
 
 slackInteractions.viewSubmission("details-modal", (payload, respond) => {
     const { view } = payload;
+    const { channel, message } = JSON.parse(view.private_metadata);
+
+    // Beware the house of cards that lies beyond...
+    const vendor_url = view.state.values.vendor_url.vendor_url_value.value;
+    const total_cost = view.state.values.total_cost.total_cost_value.value;
+    const nameTextBlock = message.blocks[0].text.text.match(/Thanks for claiming (.*)'s request/)[1];
+    const requestTextBlock = message.blocks[3].text.text;
+    const addressTextBlock = message.blocks[5].text.text;
+    const whenTextBlock = message.blocks[7].text.text;
+    const contactTextBlock = message.blocks[9].text.text;
+
 
     const doneMessage = [
         {
@@ -240,13 +255,145 @@ slackInteractions.viewSubmission("details-modal", (payload, respond) => {
         }
     ];
 
-    const { channel, message } = JSON.parse(view.private_metadata);
+    // submit to gofund me w/ data pulled from the message above about the request
+    // gofund me calls /fulfillment which creates a fulfillment request
+
+    /** Stubbing out fulfillment request */
+    const fulfillmentChannel = config.slack.fulfillment_channel;
+    const fulfillmentBlocks = [
+		{
+			type: 'section',
+			text: {
+				type: 'plain_text',
+				text: `Request is ready for fullfillment`,
+				emoji: true,
+			},
+        },
+        {
+			type: 'section',
+			text: {
+				type: 'mrkdwn',
+				text: `Request from ${nameTextBlock}`,
+			},
+		},
+		{
+			type: 'section',
+			text: {
+				type: 'mrkdwn',
+				text: '*Request*',
+			},
+		},
+		{
+			type: 'section',
+			text: {
+				type: 'mrkdwn',
+				text: requestTextBlock,
+			},
+		},
+		{
+			type: 'section',
+			text: {
+				type: 'mrkdwn',
+				text: '*Address*',
+			},
+		},
+		{
+			type: 'section',
+			text: {
+				type: 'mrkdwn',
+				text: addressTextBlock,
+			},
+		},
+		{
+			type: 'section',
+			text: {
+				type: 'mrkdwn',
+				text: '*When*',
+			},
+		},
+		{
+			type: 'section',
+			text: {
+				type: 'plain_text',
+				text: whenTextBlock,
+				emoji: true,
+			},
+		},
+		{
+			type: 'section',
+			text: {
+				type: 'mrkdwn',
+				text: '*Contact*',
+			},
+		},
+		{
+			type: 'section',
+			text: {
+				type: 'plain_text',
+				text: contactTextBlock,
+				emoji: true,
+			},
+		},
+		{
+			type: 'section',
+			text: {
+				type: 'mrkdwn',
+				text: '*Supplier*',
+			},
+		},
+		{
+			type: 'section',
+			text: {
+				type: 'plain_text',
+				text: `${vendor_url}`,
+				emoji: true,
+			},
+		},
+		{
+			type: 'section',
+			text: {
+				type: 'mrkdwn',
+				text: '*How much*',
+			},
+		},
+		{
+			type: 'section',
+			text: {
+				type: 'plain_text',
+				text: `${total_cost}`,
+				emoji: true,
+			},
+		},
+		{
+			type: 'actions',
+			elements: [
+				{
+					type: 'button',
+					text: {
+						type: 'plain_text',
+						text: 'Fulfill this request',
+						emoji: true,
+					},
+					value: 'fulfill',
+					action_id: 'fulfill',
+				},
+			],
+		},
+	];
+
+    client.chat.postMessage({
+        blocks: fulfillmentBlocks,
+        channel: fulfillmentChannel
+    });
+
+    /** end stub */
 
     client.chat.update({
         channel: channel.id,
         ts: message.ts,
         blocks: doneMessage
     });
+
 });
 
 slackEvents.on('error', console.error);
