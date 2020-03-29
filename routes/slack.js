@@ -215,7 +215,7 @@ slackInteractions.action({actionId: 'add-details'}, (payload, respond) => {
             }
         ],
         callback_id: "details-modal",
-        private_metadata: { message, channel }
+        private_metadata: JSON.stringify({ message, channel })
     };
 
     client.views.open({
