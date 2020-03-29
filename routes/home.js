@@ -1,5 +1,6 @@
 const path = require('path');
 const config = require('config');
+const { aRequestHasBeenReceived } = require('../constants');
 
 const { WebClient } = require('@slack/web-api');
 
@@ -32,7 +33,7 @@ router.get('/request', async (req, res) => {
 	} else if (requestData.phoneNumber && !requestData.email) {
 		contactInformation = `You can call me at: *${requestData.phoneNumber}*`;
 	} else if (requestData.email && requestData.phoneNumber) {
-		contactInformation = `You can contact me at either *${requestData.email}* or *${requestData.phoneNumber}*`;
+		contactInformation = `You can contact me at either: *${requestData.email}* or *${requestData.phoneNumber}*`;
 	}
 
 	const blocks = [
@@ -40,7 +41,7 @@ router.get('/request', async (req, res) => {
 			type: 'section',
 			text: {
 				type: 'mrkdwn',
-				text: `A request has been recieved by a ${requestData.firstName} ${requestData.lastName} in ${requestData.city}, ${requestData.state}`,
+				text: `${aRequestHasBeenReceived}${requestData.firstName} ${requestData.lastName} in ${requestData.city}, ${requestData.state}`,
 			},
 		},
 		{
@@ -67,6 +68,15 @@ router.get('/request', async (req, res) => {
 				{
 					type: 'mrkdwn',
 					text: `In the ${requestData.preferredTime}. Preferably on ${requestData.selectedDate}`,
+				},
+			],
+		},
+		{
+			type: 'context',
+			elements: [
+				{
+					type: 'mrkdwn',
+					text: `${requestData.address}, ${requestData.city}, ${requestData.state} ${requestData.zipcode}`,
 				},
 			],
 		},

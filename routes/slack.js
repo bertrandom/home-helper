@@ -1,4 +1,5 @@
 const config = require('config');
+const { aRequestHasBeenReceived } = require('../constants');
 
 const Router = require('express-promise-router');
 const router = new Router();
@@ -36,176 +37,134 @@ slackEvents.on('message', (event) => {
 
 slackInteractions.action({actionId: 'claim'}, (payload, respond) => {
 
+    const { message, container, user } = payload;
+    const subjectTextBlock = message.blocks[0] && message.blocks[0].text;
+    const subject = subjectTextBlock ? subjectTextBlock.text.replace(aRequestHasBeenReceived, 'a request from ') : 'a new request.';
+    const requesterName = subjectTextBlock.text.match(/ by (.*) in /)[1];
+    const requestTextBlock = message.blocks[2] && message.blocks[2].text ? message.blocks[2].text.text : '-';
+    const addressTextBlock = message.blocks[5] && message.blocks[5].elements[0] ? message.blocks[5].elements[0].text : '-';
+    const whenTextBlock = message.blocks[4] && message.blocks[4].elements[0] ? message.blocks[4].elements[0].text : '-';
+    const contactTextBlock = message.blocks[3] && message.blocks[3].text ? message.blocks[3].text.text : '-';
+
     const claimedMessage = [
         {
-            "type": "section",
-            "text": {
-                "type": "mrkdwn",
-                "text": "*Eric Gelinas* claimed a request from Samantha Slackington in Oakland, Ca 👏👏👏"
+            type: "section",
+            text: {
+                type: "mrkdwn",
+                text: `*${user.name}* claimed ${subject} 👏👏👏`
             }
         }
     ];
     
     const thankYouMessage = [
         {
-            "type": "section",
-            "text": {
-                "type": "plain_text",
-                "text": "Thanks for claiming Samantha Slackington's request",
-                "emoji": true
+            type: "section",
+            text: {
+                type: "plain_text",
+                text: `Thanks for claiming ${requesterName}'s request`,
+                emoji: true
             }
         },
         {
-            "type": "divider"
+            type: "divider"
         },
         {
-            "type": "section",
-            "text": {
-                "type": "mrkdwn",
-                "text": "*Request*"
+            type: "section",
+            text: {
+                type: "mrkdwn",
+                text: "*Request*"
             }
         },
         {
-            "type": "section",
-            "text": {
-                "type": "mrkdwn",
-                "text": "Hello, please send me some groceries. I need: coffee, onions, gravy, strawberries, sandwiches, masking tape, drain cleaner, a bundle of thyme, and fruit leather."
+            type: "section",
+            text: {
+                type: "mrkdwn",
+                text: requestTextBlock
             }
         },
         {
-            "type": "section",
-            "text": {
-                "type": "mrkdwn",
-                "text": "*Address*"
+            type: "section",
+            text: {
+                type: "mrkdwn",
+                text: "*Address*"
             }
         },
         {
-            "type": "section",
-            "text": {
-                "type": "mrkdwn",
-                "text": "<https://duckduckgo.com/?q=125+14th+St%2C+Oakland%2C+CA+94612&ia=web&iaxm=maps|125 14th St Oakland, CA 94612>"
+            type: "section",
+            text: {
+                type: "mrkdwn",
+                text: addressTextBlock
             }
         },
         {
-            "type": "section",
-            "text": {
-                "type": "mrkdwn",
-                "text": "*When*"
+            type: "section",
+            text: {
+                type: "mrkdwn",
+                text: "*When*"
             }
         },
         {
-            "type": "section",
-            "text": {
-                "type": "plain_text",
-                "text": "In the morning. Preferably on Monday",
-                "emoji": true
+            type: "section",
+            text: {
+                type: "plain_text",
+                text: whenTextBlock,
+                emoji: true
             }
         },
         {
-            "type": "divider"
+            type: "section",
+            text: {
+                type: "mrkdwn",
+                text: "*Contact*"
+            }
         },
         {
-            "type": "section",
-            "text": {
-                "type": "mrkdwn",
-                "text": "This request details: Vendor and Total Cost."
+            type: "section",
+            text: {
+                type: "plain_text",
+                text: contactTextBlock,
+                emoji: true
+            }
+        },
+        {
+            type: "divider"
+        },
+        {
+            type: "section",
+            text: {
+                type: "mrkdwn",
+                text: "Details still needed: Vendor and Total Cost."
             },
-            "accessory": {
-                "type": "button",
-                "text": {
-                    "type": "plain_text",
-                    "text": "Add details",
-                    "emoji": true
+            accessory: {
+                type: "button",
+                text: {
+                    type: "plain_text",
+                    text: "Add details",
+                    emoji: true
                 },
-                "value": "add-details",
-                "action_id": "add-details"
+                value: "add-details",
+                action_id: "add-details"
             }
         }
     ];
-    
-    console.log('payload', payload);
 
     client.chat.update({
-        channel: payload.container.channel_id,
-        ts: payload.container.message_ts,
+        channel: container.channel_id,
+        ts: container.message_ts,
         blocks: claimedMessage
     });
 
     client.chat.postMessage({
-        channel: payload.user.id,
+        channel: user.id,
         blocks: thankYouMessage
-    });
+    }).catch(console.error);
 
 });
 
 slackInteractions.action({actionId: 'add-details'}, (payload, respond) => {
 
-    const detailsModalBlocks = [
-        {
-            "type": "section",
-            "text": {
-                "type": "mrkdwn",
-                "text": "Request from Samantha Slackington:"
-            }
-        },
-        {
-            "type": "section",
-            "text": {
-                "type": "mrkdwn",
-                "text": "Hello, please send me some groceries. I need: coffee, onions, gravy, strawberries, sandwiches, masking tape, drain cleaner, a bundle of thyme, and fruit leather."
-            }
-        },
-        {
-            "type": "section",
-            "text": {
-                "type": "mrkdwn",
-                "text": "<https://duckduckgo.com/?q=125+14th+St%2C+Oakland%2C+CA+94612&ia=web&iaxm=maps|125 14th St Oakland, CA 94612>"
-            }
-        },
-        {
-            "type": "context",
-            "elements": [
-                {
-                    "type": "mrkdwn",
-                    "text": "In the morning. Preferably on Monday"
-                }
-            ]
-        },
-        {
-            "type": "divider"
-        },
-        {
-            "type": "input",
-            "element": {
-                "type": "plain_text_input"
-            },
-            "label": {
-                "type": "plain_text",
-                "text": "URL for vendor on Yelp, Google Places, or Foursquare",
-                "emoji": true
-            }
-        },
-        {
-            "type": "input",
-            "element": {
-                "type": "plain_text_input"
-            },
-            "label": {
-                "type": "plain_text",
-                "text": "Total cost with shipping",
-                "emoji": true
-            }
-        },
-        {
-            "type": "section",
-            "text": {
-                "type": "plain_text",
-                "text": "Please review these details. After submition a GoFundMe campaign will be created on behalf of Samantha Slackington. Thank you for your help.",
-                "emoji": true
-            }
-        }
-    ];
-    
+    const { message } = payload;
+
     const detailsModalView = {
         "type": "modal",
         "title": {
@@ -283,20 +242,16 @@ slackInteractions.action({actionId: 'add-details'}, (payload, respond) => {
                 "type": "section",
                 "text": {
                     "type": "plain_text",
-                    "text": "Please review these details. After submition a GoFundMe campaign will be created on behalf of Samantha Slackington. Thank you for your help.",
+                    "text": "Please review these details. After submission a GoFundMe campaign will be created on behalf of Samantha Slackington. Thank you for your help.",
                     "emoji": true
                 }
             }
         ]
     };
 
-    console.log(payload);
-
-    // Not working just yet :(
-
     client.views.open({
         trigger_id: payload.trigger_id,
-        title: "Hello, world!",
+        title: "Enter order details",
         view: detailsModalView
     });
 
