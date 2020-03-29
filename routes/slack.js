@@ -186,33 +186,33 @@ slackInteractions.action({actionId: 'add-details'}, (payload, respond) => {
         },
         blocks: [
             {
-                "type": "input",
-                "element": {
-                    "type": "plain_text_input"
+                type: "input",
+                element: {
+                    type: "plain_text_input"
                 },
-                "label": {
-                    "type": "plain_text",
-                    "text": "URL for vendor on Yelp, Google Places, or Foursquare",
-                    "emoji": true
+                label: {
+                    type: "plain_text",
+                    text: "URL for vendor on Yelp, Google Places, or Foursquare",
+                    emoji: true
                 }
             },
             {
-                "type": "input",
-                "element": {
-                    "type": "plain_text_input"
+                type: "input",
+                element: {
+                    type: "plain_text_input"
                 },
-                "label": {
-                    "type": "plain_text",
-                    "text": "Total cost with delivery",
-                    "emoji": true
+                label: {
+                    type: "plain_text",
+                    text: "Total cost with delivery",
+                    emoji: true
                 }
             },
             {
-                "type": "section",
-                "text": {
-                    "type": "plain_text",
-                    "text": "Please review these details. After submission a GoFundMe campaign will be created on behalf of Samantha Slackington. Thank you for your help.",
-                    "emoji": true
+                type: "section",
+                text: {
+                    type: "plain_text",
+                    text: "Please review these details. After submission a GoFundMe campaign will be created on behalf of Samantha Slackington. Thank you for your help.",
+                    emoji: true
                 }
             }
         ]
