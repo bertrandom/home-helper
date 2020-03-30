@@ -4,6 +4,11 @@ A community of helpers ready to arrange payment and delivery of essential items 
 
 [Entry for COVID-19 Global Hackathon](https://covid-global-hackathon.devpost.com/)
 
+![](screenshots/Home%20helper%20-%20helping%20hands%202020-03-30%2002-39-51.png)
+![](screenshots/Home%20helper%20-%20helping%20hands%202020-03-30%2002-40-34.png)
+![](screenshots/Slack%20%7C%20home-helper%20%7C%20Bert%20Testy%202020-03-30%2002-42-16.png)
+
+
 ## Installation
 
 Clone the repo into a directory of your choice.
