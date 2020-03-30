@@ -41,9 +41,9 @@ router.get('/request', async (req, res) => {
 
 	console.log('Form Submission', requestData);
 
-	await Request.query().insert({
+	let request = await Request.query().insert({
 		first_name: requestData.firstName,
-		last_name: requestData.last_name,
+		last_name: requestData.lastName,
 		email: requestData.email,
 		phone_number: requestData.phoneNumber,
 		street_address: requestData.address,
@@ -56,14 +56,7 @@ router.get('/request', async (req, res) => {
 		request_state: 'submitted'
 	});
 
-	let contactInformation;
-	if (requestData.email && !requestData.phoneNumber) {
-		contactInformation = `You can email me at: *${requestData.email}*`;
-	} else if (requestData.phoneNumber && !requestData.email) {
-		contactInformation = `You can call me at: *${requestData.phoneNumber}*`;
-	} else if (requestData.email && requestData.phoneNumber) {
-		contactInformation = `You can contact me at either: *${requestData.email}* or *${requestData.phoneNumber}*`;
-	}
+	let contactInformation = request.contactInfo();
 
 	const addressTextBlock = `${requestData.address}, ${requestData.city}, ${requestData.state} ${requestData.zipcode}`;
 
@@ -124,7 +117,7 @@ router.get('/request', async (req, res) => {
 						text: 'Claim this request',
 						emoji: true,
 					},
-					value: 'claim',
+					value: request.id.toString(),
 					action_id: 'claim',
 				},
 			],
