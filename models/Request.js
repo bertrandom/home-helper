@@ -19,6 +19,12 @@ class Request extends Model {
 
   }
 
+  addressLine() {
+
+    return `${this.street_address}, ${this.city}, ${this.state} ${this.zipcode}`;
+
+  }
+
 }
 
 module.exports = { Request };

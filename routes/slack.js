@@ -58,7 +58,7 @@ slackInteractions.action({actionId: 'claim'}, async (payload, respond) => {
     const { message, container, user } = payload;
 
     const requestTextBlock = message.blocks[2] && message.blocks[2].text ? message.blocks[2].text.text : '-';
-    const addressTextBlock = message.blocks[6] && message.blocks[6].text ? message.blocks[6].text.text : '-';
+	const addressTextBlock = request.addressLine();
     const whenTextBlock = message.blocks[4] && message.blocks[4].text ? message.blocks[4].text.text : '-';
     const contactTextBlock = request.contactInfo();
 
@@ -285,7 +285,8 @@ slackInteractions.viewSubmission("details-modal", async (payload, respond) => {
     const invoiceUrl = view.state.values.invoice_url.invoice_url_value.value;
 
     const requestTextBlock = message.blocks[3].text.text;
-    const addressTextBlock = message.blocks[5].text.text;
+
+    const addressTextBlock = request.addressLine();
     const whenTextBlock = message.blocks[7].text.text;
     const contactTextBlock = request.contactInfo();
 
@@ -299,7 +300,7 @@ slackInteractions.viewSubmission("details-modal", async (payload, respond) => {
 			type: 'section',
 			text: {
 				type: 'mrkdwn',
-				text: `A request from ${request.first_name} ${request.last_name}  is ready for fullfillment`,
+				text: `A request from ${request.first_name} ${request.last_name} is ready for fullfillment`,
 			},
 		},
 		{
@@ -363,15 +364,28 @@ slackInteractions.viewSubmission("details-modal", async (payload, respond) => {
 			type: 'section',
 			text: {
 				type: 'mrkdwn',
-				text: '*Supplier*',
+				text: '*Vendor*',
 			},
 		},
 		{
 			type: 'section',
 			text: {
-				type: 'plain_text',
-				text: `${vendorUrl}`,
-				emoji: true,
+				type: 'mrkdwn',
+				text: `<${vendorUrl}|${vendorUrl}>`,
+			},
+		},
+		{
+			type: 'section',
+			text: {
+				type: 'mrkdwn',
+				text: '*Invoice*',
+			},
+		},
+		{
+			type: 'section',
+			text: {
+				type: 'mrkdwn',
+				text: `<${invoiceUrl}|${invoiceUrl}>`,
 			},
 		},
 		{

@@ -58,7 +58,7 @@ router.get('/request', async (req, res) => {
 
 	let contactInformation = request.contactInfo();
 
-	const addressTextBlock = `${requestData.address}, ${requestData.city}, ${requestData.state} ${requestData.zipcode}`;
+	const addressTextBlock = request.addressLine();
 
 	const blocks = [
 		{
