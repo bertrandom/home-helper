@@ -42,8 +42,8 @@ slackInteractions.action({actionId: 'claim'}, (payload, respond) => {
     const subject = subjectTextBlock ? subjectTextBlock.text.replace(aRequestHasBeenReceived, 'a request from ') : 'a new request.';
     const requesterName = subjectTextBlock.text.match(/ by (.*) in /)[1];
     const requestTextBlock = message.blocks[2] && message.blocks[2].text ? message.blocks[2].text.text : '-';
-    const addressTextBlock = message.blocks[5] && message.blocks[5].elements[0] ? message.blocks[5].elements[0].text : '-';
-    const whenTextBlock = message.blocks[4] && message.blocks[4].elements[0] ? message.blocks[4].elements[0].text : '-';
+    const addressTextBlock = message.blocks[6] && message.blocks[6].text ? message.blocks[6].text.text : '-';
+    const whenTextBlock = message.blocks[4] && message.blocks[4].text ? message.blocks[4].text.text : '-';
     const contactTextBlock = message.blocks[3] && message.blocks[3].text ? message.blocks[3].text.text : '-';
 
     const claimedMessage = [
@@ -265,24 +265,10 @@ slackInteractions.viewSubmission("details-modal", (payload, respond) => {
 			type: 'section',
 			text: {
 				type: 'plain_text',
-				text: `Request is ready for fullfillment`,
+				text: `A request from ${nameTextBlock} is ready for fullfillment`,
 				emoji: true,
 			},
         },
-        {
-			type: 'section',
-			text: {
-				type: 'mrkdwn',
-				text: `Request from ${nameTextBlock}`,
-			},
-		},
-		{
-			type: 'section',
-			text: {
-				type: 'mrkdwn',
-				text: '*Request*',
-			},
-		},
 		{
 			type: 'section',
 			text: {
@@ -294,7 +280,7 @@ slackInteractions.viewSubmission("details-modal", (payload, respond) => {
 			type: 'section',
 			text: {
 				type: 'mrkdwn',
-				text: '*Address*',
+				text: '*Their address*',
 			},
 		},
 		{
@@ -329,9 +315,8 @@ slackInteractions.viewSubmission("details-modal", (payload, respond) => {
 		{
 			type: 'section',
 			text: {
-				type: 'plain_text',
+				type: 'mrkdwn',
 				text: contactTextBlock,
-				emoji: true,
 			},
 		},
 		{
@@ -392,6 +377,32 @@ slackInteractions.viewSubmission("details-modal", (payload, respond) => {
         channel: channel.id,
         ts: message.ts,
         blocks: doneMessage
+    });
+
+});
+
+slackInteractions.action({actionId: 'fulfill'}, (payload, respond) => {
+
+    console.log('fulfill interaction', payload);
+
+    const { message, container } = payload;
+    const nameTextBlock = message.blocks[0].text.text.match(/A request from (.*) is ready for fullfillment/)[1];
+
+    const fulfilledMessage = [
+        {
+            type: "section",
+            text: {
+                type: "plain_text",
+                text: `:white_check_mark: Request from ${nameTextBlock} fulfilled!`,
+                emoji: true
+            }
+        }
+    ];
+
+    client.chat.update({
+        channel: container.channel_id,
+        ts: container.message_ts,
+        blocks: fulfilledMessage
     });
 
 });

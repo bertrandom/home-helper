@@ -92,22 +92,25 @@ router.get('/request', async (req, res) => {
 			},
 		},
 		{
-			type: 'context',
-			elements: [
-				{
-					type: 'mrkdwn',
-					text: `In the ${requestData.preferredTime}. Preferably on ${requestData.selectedDate}`,
-				},
-			],
+			type: 'section',
+			text: {
+				type: 'mrkdwn',
+				text: `In the ${requestData.preferredTime}. Preferably on ${requestData.selectedDate}`,
+			},
 		},
 		{
-			type: 'context',
-			elements: [
-				{
-					type: 'mrkdwn',
-					text: `${requestData.address}, ${requestData.city}, ${requestData.state} ${requestData.zipcode}`,
-				},
-			],
+			type: 'section',
+			text: {
+				type: 'mrkdwn',
+				text: '*My address is:*',
+			},
+		},
+		{
+			type: 'section',
+			text: {
+				type: 'mrkdwn',
+				text: `${requestData.address}, ${requestData.city}, ${requestData.state} ${requestData.zipcode}`,
+			}
 		},
 		{
 			type: 'actions',
