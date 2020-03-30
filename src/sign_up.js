@@ -328,6 +328,7 @@ export default function SignUp({ onSuccess }) {
 									value={selectedDate}
 									onChange={handleDateChange}
 									minDate={new Date()}
+									disablePast={true}
 									KeyboardButtonProps={{
 										'aria-label': 'change delivery date',
 									}}
