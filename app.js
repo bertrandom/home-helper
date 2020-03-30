@@ -29,16 +29,16 @@ app.use(function (err, req, res, next) {
 	next();
 });
 
-let url = "localhost";
-
 (async () => {
 	try {
-		if (config.ngrok) {
+		if (config.ngrok && config.ngrok.subdomain) {
 			url = await ngrok.connect({...config.ngrok, addr: config.port});
+		} else {
+			url = `http://localhost:${config.port}`;
 		}
 		
 		app.listen(config.port, () => {
-			console.log(`Server started url https://${url}:${config.port}.`);
+			console.log(`Server started: ${url}`);
 		});
 	} catch(error) {
 		console.error(error);
