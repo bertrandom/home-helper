@@ -94,22 +94,25 @@ router.get('/request', async (req, res) => {
 			},
 		},
 		{
-			type: 'context',
-			elements: [
-				{
-					type: 'mrkdwn',
-					text: `In the ${requestData.preferredTime}. Preferably on ${requestData.selectedDate}`,
-				},
-			],
+			type: 'section',
+			text: {
+				type: 'mrkdwn',
+				text: `In the ${requestData.preferredTime}. Preferably on ${requestData.selectedDate}`,
+			},
 		},
 		{
-			type: 'context',
-			elements: [
-				{
-					type: 'mrkdwn',
-					text: `<https://duckduckgo.com/?q=${addressTextBlock}&t=hy&ia=maps&iaxm=maps|${addressTextBlock}>`,
-				},
-			],
+			type: 'section',
+			text: {
+				type: 'mrkdwn',
+				text: '*My address is:*',
+			},
+		},
+		{
+			type: 'section',
+			text: {
+				type: 'mrkdwn',
+				text: `<https://duckduckgo.com/?q=${addressTextBlock}&t=hy&ia=maps&iaxm=maps|${addressTextBlock}>`,
+			}
 		},
 		{
 			type: 'actions',
