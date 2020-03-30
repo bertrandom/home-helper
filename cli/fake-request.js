@@ -15,7 +15,7 @@ const requestData = {
 	city: 'Oakland',
 	zipcode: 94602,
 	state: 'Ca',
-	selectedDate: 'March 20th, 2020',
+	selectedDate: 'March 31, 2020',
 	preferredTime: 'Morning',
 	request: 'Hello, please send me some groceries. I need: coffee, onions, gravy, strawberries, sandwiches, masking tape, drain cleaner, a bundle of thyme, and fruit leather.',
 };
