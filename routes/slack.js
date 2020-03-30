@@ -56,10 +56,10 @@ slackInteractions.action({actionId: 'claim'}, async (payload, respond) => {
     const request = await Request.query().findById(requestId);
 
     const { message, container, user } = payload;
-    const subjectTextBlock = message.blocks[0] && message.blocks[0].text;
+
     const requestTextBlock = message.blocks[2] && message.blocks[2].text ? message.blocks[2].text.text : '-';
-    const addressTextBlock = message.blocks[5] && message.blocks[5].elements[0] ? message.blocks[5].elements[0].text : '-';
-    const whenTextBlock = message.blocks[4] && message.blocks[4].elements[0] ? message.blocks[4].elements[0].text : '-';
+    const addressTextBlock = message.blocks[6] && message.blocks[6].text ? message.blocks[6].text.text : '-';
+    const whenTextBlock = message.blocks[4] && message.blocks[4].text ? message.blocks[4].text.text : '-';
     const contactTextBlock = request.contactInfo();
 
     const claimedMessage = [
