@@ -11,6 +11,7 @@ exports.up = function(knex) {
         table.string('state');
         table.string('zipcode');
         table.string('preferred_time_of_day');
+        table.string('cost');
         table.date('preferred_date');
         table.text('request_text');
         table.timestamp('created_at').defaultTo(knex.fn.now());
