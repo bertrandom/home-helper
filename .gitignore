@@ -4,6 +4,8 @@ package-lock.json
 config/local.json5
 config/prod.json5
 
+home-helper.db
+
 # dependencies
 /node_modules
 /.pnp

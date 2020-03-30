@@ -4,6 +4,18 @@ const { aRequestHasBeenReceived } = require('../constants');
 
 const { WebClient } = require('@slack/web-api');
 
+const Knex = require('knex');
+const knexConfig = require('../knexfile');
+
+const { Model } = require('objection');
+const { Request } = require('../models/Request');
+
+var environment = process.env.NODE_ENV || 'dev';
+
+const knex = Knex(knexConfig[environment]);
+
+Model.knex(knex);
+
 const Router = require('express-promise-router');
 const router = new Router();
 
@@ -26,6 +38,23 @@ router.get('/request', async (req, res) => {
 		console.log(error);
 		res.sendStatus(500);
 	}
+
+	console.log('Form Submission', requestData);
+
+	await Request.query().insert({
+		first_name: requestData.firstName,
+		last_name: requestData.last_name,
+		email: requestData.email,
+		phone_number: requestData.phoneNumber,
+		street_address: requestData.address,
+		city: requestData.city,
+		state: requestData.state,
+		zipcode: requestData.zipcode,
+		// requestData.selectedData 
+		preferred_time_of_day: requestData.preferredTime,
+		request_text: requestData.request,
+		request_state: 'submitted'
+	});
 
 	let contactInformation;
 	if (requestData.email && !requestData.phoneNumber) {
