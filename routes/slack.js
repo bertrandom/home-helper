@@ -93,7 +93,7 @@ slackInteractions.action({actionId: 'claim'}, (payload, respond) => {
             type: "section",
             text: {
                 type: "mrkdwn",
-                text: addressTextBlock
+                text: `<https://duckduckgo.com/?q=${addressTextBlock}&t=hy&ia=maps&iaxm=maps|${addressTextBlock}>`
             }
         },
         {
@@ -213,7 +213,7 @@ slackInteractions.action({actionId: 'add-details'}, (payload, respond) => {
                 type: "section",
                 text: {
                     type: "plain_text",
-                    text: "Please review these details. After submission a GoFundMe campaign will be created on behalf of Samantha Slackington. Thank you for your help.",
+                    text: "Please review these details. After submission a GoFundMe campaign will be created. Thank you for your help.",
                     emoji: true
                 }
             }
@@ -301,7 +301,7 @@ slackInteractions.viewSubmission("details-modal", (payload, respond) => {
 			type: 'section',
 			text: {
 				type: 'mrkdwn',
-				text: addressTextBlock,
+				text: `<https://duckduckgo.com/?q=${addressTextBlock}&t=hy&ia=maps&iaxm=maps|${addressTextBlock}>`,
 			},
 		},
 		{

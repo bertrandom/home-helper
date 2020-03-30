@@ -65,6 +65,8 @@ router.get('/request', async (req, res) => {
 		contactInformation = `You can contact me at either: *${requestData.email}* or *${requestData.phoneNumber}*`;
 	}
 
+	const addressTextBlock = `${requestData.address}, ${requestData.city}, ${requestData.state} ${requestData.zipcode}`;
+
 	const blocks = [
 		{
 			type: 'section',
@@ -105,7 +107,7 @@ router.get('/request', async (req, res) => {
 			elements: [
 				{
 					type: 'mrkdwn',
-					text: `${requestData.address}, ${requestData.city}, ${requestData.state} ${requestData.zipcode}`,
+					text: `<https://duckduckgo.com/?q=${addressTextBlock}&t=hy&ia=maps&iaxm=maps|${addressTextBlock}>`,
 				},
 			],
 		},
