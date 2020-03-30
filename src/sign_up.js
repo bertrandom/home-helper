@@ -272,19 +272,6 @@ export default function SignUp({ onSuccess }) {
 								onChange={handleAddressChange}
 							/>
 						</Grid>
-						<Grid item xs={12} sm={3}>
-							<TextField
-								variant="outlined"
-								fullWidth
-								id="zipcode"
-								label="Zipcode"
-								name="zipcode"
-								autoComplete="zipcode"
-								value={zipcode}
-								onChange={handleZipcodeChange}
-								inputProps={{ maxLength: 5 }}
-							/>
-						</Grid>
 						<Grid item xs={12} sm={7}>
 							<TextField
 								variant="outlined"
@@ -308,6 +295,19 @@ export default function SignUp({ onSuccess }) {
 								value={state}
 								onChange={handleStateChange}
 								inputProps={{ maxLength: 2 }}
+							/>
+						</Grid>
+						<Grid item xs={12} sm={3}>
+							<TextField
+								variant="outlined"
+								fullWidth
+								id="zipcode"
+								label="Zipcode"
+								name="zipcode"
+								autoComplete="zipcode"
+								value={zipcode}
+								onChange={handleZipcodeChange}
+								inputProps={{ maxLength: 5 }}
 							/>
 						</Grid>
 					</Grid>
