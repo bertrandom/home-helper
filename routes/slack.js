@@ -444,10 +444,11 @@ slackInteractions.viewSubmission("details-modal", async (payload, respond) => {
                     "type": "button",
                     "text": {
                         "type": "plain_text",
-                        "text": "Gofundme",
+                        "text": "GoFundMe",
                         "emoji": true
                     },
-                    "url": url
+                    "url": url,
+                    "action_id": "gofundme_click"
                 }
             }
         ];   
@@ -462,6 +463,9 @@ slackInteractions.viewSubmission("details-modal", async (payload, respond) => {
 
     });
 
+});
+
+slackInteractions.action({actionId: 'gofundme_click'}, (payload, respond) => {
 });
 
 slackInteractions.action({actionId: 'fulfill'}, (payload, respond) => {
